@@ -218,12 +218,17 @@ public class UserController {
 	
 	@PostMapping("/searchAccount")
 	public String searchAccount(@RequestParam String email, RedirectAttributes ra,Model model) {
-		User userByEmail = uService.getUserByEmail(email);
+		
+		try{
+			User userByEmail = uService.getUserByEmail(email);
 		if(userByEmail!=null && userByEmail.getRole().equals("ROLE_USER")) {
 			model.addAttribute("user", userByEmail);
 			return "user/reset-password";
+		}}catch (RuntimeException e) {
+			ra.addFlashAttribute("error", e.getMessage());
+			
 		}
-		ra.addFlashAttribute("error", "User Doesnot exist");
+		
 		return "redirect:/user/forgot-password";
 	}
 	
