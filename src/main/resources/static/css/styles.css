@@ -1,0 +1,70 @@
+
+   body {
+    background-color: rgb(219, 221, 223); /* dim light blue */
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+        .quick-link {
+            text-decoration: none !important;          /* No underline by default */
+            border-bottom: 2px solid transparent;  /* Transparent underline */
+            padding-bottom: 1px;             /* Space for underline */
+        }
+
+        .quick-link:hover {
+        text-decoration: none !important;          /* No underline on hover */
+            border-bottom-color: #6c757d;    /* Bootstrap secondary color */
+        }
+         
+         .feature-box {
+    background-color: rgb(179, 179, 255); /* light grey for contrast */
+    border: 1px solid rgb(154, 154, 154);    /* light border */
+    border-radius: 10px;         /* rounded corners */
+    transition: transform 0.3s, box-shadow 0.3s; /* smooth hover effect */
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);       /* slight lift on hover */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* subtle shadow */
+}
+
+
+    
+    /* Navbar link base style */
+.navbar .nav-link {
+    color: #f8f9fa;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Underline animation */
+.navbar .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+    width: 0;
+    height: 2px;
+    background-color: #ffffff;
+    transition: width 0.3s ease;
+}
+
+/* Hover effect */
+.navbar .nav-link:hover {
+    color: #ffffff;
+}
+
+.navbar .nav-link:hover::after {
+    width: 100%;
+}
+    .navbar .nav-link.fw-bold {
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar .nav-link.fw-bold:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+    
+         

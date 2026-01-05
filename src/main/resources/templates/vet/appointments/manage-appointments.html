@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Vet Appointments | PetCare</title>
+
+<!-- Bootstrap -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+	rel="stylesheet">
+
+<!-- Reused Admin CSS -->
+<link href="/css/admin-home.css" rel="stylesheet">
+</head>
+<body>
+
+	<!-- Header -->
+	<div th:replace="~{vet/vet-fragments::header}"></div>
+
+	<div class="admin-wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{vet/vet-fragments::sidebar}"></div>
+
+		<!-- Main Content -->
+		<div class="main-content">
+
+			<!-- Navbar -->
+			<div th:replace="~{vet/vet-fragments::navbar}"></div>
+
+			<!-- Page Content -->
+			<div class="container-fluid">
+
+				<!-- Page Header -->
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<h4 class="mb-0">
+						<i class="bi bi-calendar-check me-2"></i>My Appointments
+					</h4>
+				</div>
+
+				<!-- Success Message -->
+				<div th:if="${success}" class="alert alert-success text-center">
+					<span th:text="${success}"></span>
+				</div>
+
+				<!-- Appointment Completion Message -->
+				<div th:if="${completed}" class="alert alert-success text-center">
+					<span th:text="${completed}"></span>
+				</div>
+
+				<!-- Appointment Cancellation Message -->
+				<div th:if="${canceled}" class="alert alert-success text-center">
+					<span th:text="${canceled}"></span>
+				</div>
+
+				<!-- No Appointments -->
+				<div th:if="${#lists.isEmpty(appointments)}"
+					class="alert alert-info text-center">
+					<i class="bi bi-info-circle me-1"></i> No appointments assigned to
+					you.
+				</div>
+
+				<!-- Appointments Table -->
+				<div th:if="${!#lists.isEmpty(appointments)}" class="card shadow-sm">
+
+					<div class="card-body p-0">
+						<table class="table table-hover mb-0 align-middle">
+							<thead class="table-light">
+								<tr>
+									<th>#</th>
+									<th>Date</th>
+									<th>Time</th>
+									<th>Pet</th>
+									<th>Owner</th>
+									<th>Status</th>
+									<th class="text-center">Actions</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr th:each="appt, stat : ${appointments}">
+									<td th:text="${stat.count}">1</td>
+
+									<td th:text="${appt.date}">2025-01-01</td>
+
+									<td><span
+										th:text="${#temporals.format(appt.time, 'hh:mm a')}"></span></td>
+
+									<td th:text="${appt.pet.name}">Buddy</td>
+
+									<td th:text="${appt.user.name}">Mukesh</td>
+
+									<td><span class="badge" th:text="${appt.status}"
+										th:classappend="
+                                          ${appt.status == 'Scheduled'} ? 'bg-warning' :
+                                          (${appt.status == 'Completed'} ? 'bg-success' : 'bg-danger')">
+									</span></td>
+
+									<td class="text-center">
+										<!-- Cancel --> <a th:if="${appt.status == 'Scheduled'}"
+										th:href="@{/vet/appointments/cancel/{id}(id=${appt.id})}"
+										class="btn btn-sm btn-outline-danger"
+										title="Cancel Appointment"
+										onclick="return confirm('Are you sure you want to cancel this appointment?');">
+											<i class="bi bi-x-circle"></i>
+									</a> <!-- Ongoing Treatment --> <a
+										th:if="${appt.status == 'Scheduled'}"
+										th:href="@{/vet/appointments/ongoing/{id}(id=${appt.id})}"
+										class="btn btn-sm btn-outline-primary" title="Start Treatment">
+											<i class="bi bi-activity"></i>
+									</a> 
+									</td>
+								</tr>
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+				
+				
+				<!-- ================= Ongoing Appointments ================= -->
+<div th:if="${!#lists.isEmpty(ongoingAppointments)}"
+     class="card shadow-sm mt-4">
+
+    <div class="card-header bg-light fw-semibold">
+        <i class="bi bi-activity me-2 text-primary"></i>
+        Ongoing Treatments
+    </div>
+
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Pet</th>
+                    <th>Owner</th>
+                    <th>Status</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="appt, stat : ${ongoingAppointments}">
+                    <td th:text="${stat.count}">1</td>
+
+                    <td th:text="${appt.date}">2025-01-01</td>
+
+                    <td>
+                        <span th:text="${#temporals.format(appt.time, 'hh:mm a')}"></span>
+                    </td>
+
+                    <td th:text="${appt.pet.name}">Buddy</td>
+
+                    <td th:text="${appt.user.name}">Mukesh</td>
+
+                    <td>
+                        <span class="badge bg-primary">Ongoing</span>
+                    </td>
+
+                    <td class="text-center">
+                        <!-- Resume Treatment -->
+                        <a th:href="@{/vet/appointments/treatment/{id}(id=${appt.id})}"
+                           class="btn btn-sm btn-outline-primary"
+                           title="Resume Treatment">
+                            <i class="bi bi-arrow-repeat me-1"></i> Resume
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<!-- No Ongoing Appointments -->
+<div th:if="${#lists.isEmpty(ongoingAppointments)}"
+     class="alert alert-info text-center mt-4">
+    <i class="bi bi-info-circle me-1"></i>
+    No ongoing treatments at the moment.
+</div>
+				
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="~{vet/vet-fragments::footer}"></div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

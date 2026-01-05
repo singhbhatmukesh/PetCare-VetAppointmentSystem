@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create User</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Admin CSS -->
+    <link href="/css/admin-home.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{admin/admin-fragments::header}"></div>
+
+<div class="admin-wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="~{admin/admin-fragments::sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Top bar -->
+        <div th:replace="~{admin/admin-fragments::navbar}"></div>
+        <!-- Page Content -->
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">
+                                <i class="bi bi-person-plus me-2"></i>Create New User
+                            </h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <!-- Error -->
+                            <div th:if="${error}" class="alert alert-danger text-center">
+                                <span th:text="${error}"></span>
+                            </div>
+
+                            <!-- Success -->
+                            <div th:if="${success}" class="alert alert-success text-center">
+                                <span th:text="${success}"></span>
+                            </div>
+
+                            <form th:action="@{/admin/users/createUser}" method="post" th:object="${user}">
+
+                                <!-- Name -->
+                                <div class="mb-3">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" th:field="*{name}" required>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" th:field="*{email}" required>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" class="form-control" th:field="*{password}" required>
+                                </div>
+
+                                <!-- Role -->
+                                <div class="mb-3">
+                                    <label class="form-label">Role</label>
+                                    <select class="form-select" th:field="*{role}">
+                                        <option value="ROLE_USER">User</option>
+                                       
+                                    </select>
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="mb-3">
+                                    <label class="form-label">Gender</label>
+                                    <select class="form-select" th:field="*{gender}">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <!-- Provider -->
+                                <div class="mb-3">
+                                    <label class="form-label">Provider</label>
+                                    <select class="form-select" th:field="*{provider}">
+                                        <option value="LOCAL">Local</option>
+                                        <option value="GOOGLE">Google</option>
+                                        <option value="GITHUB">GitHub</option>
+                                    </select>
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="d-flex justify-content-between">
+                                    <a th:href="@{/admin/users}" class="btn btn-outline-secondary">
+                                        <i class="bi bi-arrow-left"></i> Back
+                                    </a>
+
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-check-circle me-1"></i> Create User
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{admin/admin-fragments::footer}"></div>
+	<div th:replace="~{admin/admin-fragments::sidebar-js}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

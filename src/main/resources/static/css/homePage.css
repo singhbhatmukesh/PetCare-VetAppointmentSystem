@@ -1,0 +1,150 @@
+/* ================= BASE PAGE ================= */
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: rgb(219, 221, 223);
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* ================= STICKY FOOTER ================= */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content {
+    flex: 1;
+}
+
+/* ================= DROPDOWN RESET ================= */
+.dropdown-menu {
+    padding: 0 !important;
+}
+
+.dropdown-menu .dropdown-item {
+    padding: 10px 16px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* remove bootstrap focus glow */
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item:active {
+    box-shadow: none !important;
+}
+
+/* ================= LOGOUT BUTTON ================= */
+.dropdown-menu .logout-btn {
+    color: #dc3545 !important;
+    background-color: transparent !important;
+    margin-top: 0 !important;
+    border-radius: 0;
+}
+
+.dropdown-menu .logout-btn:hover,
+.dropdown-menu .logout-btn:focus {
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+}
+
+.dropdown-menu .logout-btn:active {
+    background-color: #bb2d3b !important;
+}
+
+.dropdown-menu .profile-item:hover,
+.dropdown-menu .profile-item:focus {
+    background-color: #6c757d !important;
+    color: #ffffff !important;
+}
+
+
+/* ================= DROPDOWN DIVIDER ================= */
+.dropdown-divider {
+    margin: 0 !important;
+}
+
+/* ================= HEADER NAV LINKS ================= */
+.navbar .nav-link {
+    position: relative;
+    padding-bottom: 6px; /* reserve underline space */
+    color: #ffffff;
+}
+
+/* underline */
+.navbar .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 0.25s ease;
+}
+
+/* hover */
+.navbar .nav-link:hover {
+    color: rgb(187, 255, 255) !important;
+}
+
+.navbar .nav-link:hover::after {
+    width: 100%;
+}
+
+/* ================= PROFILE LINK ================= */
+.navbar .nav-link.profile-link {
+    transition: color 0.2s ease;
+}
+
+/* remove underline from profile */
+.navbar .nav-link.profile-link::after {
+    display: none !important;
+}
+
+/* hover color only */
+.navbar .nav-link.profile-link:hover,
+.navbar .nav-link.profile-link:focus {
+    color: rgb(187, 255, 255) !important;
+}
+
+/* remove bootstrap caret */
+.navbar .dropdown-toggle::after {
+    display: none !important;
+}
+
+/* ================= PROFILE ARROW ================= */
+.profile-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.profile-link[aria-expanded="true"] .profile-arrow {
+    transform: rotate(180deg);
+}
+
+/* ================= QUICK LINKS ================= */
+.quick-link {
+    position: relative;
+    text-decoration: none;
+    padding-bottom: 2px;
+}
+
+.quick-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 0.25s ease;
+}
+
+.quick-link:hover::after {
+    width: 100%;
+}
+
+

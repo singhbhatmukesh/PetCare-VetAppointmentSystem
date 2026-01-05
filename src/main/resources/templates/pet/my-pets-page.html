@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Pets | PetCare</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/homePage.css}">
+</head>
+<body class="bg-light">
+<div class="page-wrapper">
+
+<!-- Header -->
+<div th:replace="~{user/user-fragments :: header}"></div>
+
+<main class="page-content">
+
+<!-- Page Title -->
+<section class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0 text-center">
+            🐾 My Pets
+        </h3>
+        
+        <div th:if="${success}" class="alert alert-success text-center">
+        <span th:text="${success}"></span>
+        </div>
+        
+         <div th:if="${error}" class="alert alert-danger text-center">
+        <span th:text="${error}"></span>
+        </div>
+        
+        <div th:if="${deleted}" class="alert alert-success text-center">
+        <span th:text="${deleted}"></span>
+        </div>
+
+        <a th:href="@{/user/pets/register}" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Add Pet
+        </a>
+    </div>
+</section>
+
+<!-- Pets List -->
+<!-- If no pets -->
+<div class="col-12" th:if="${#lists.isEmpty(pets)}">
+    <div class="alert alert-info text-center p-4">
+        <h5 class="mb-3">🐾 No pets registered yet</h5>
+        <p class="mb-3">
+            You haven't added any pets. Register your first pet to get started.
+        </p>
+
+        <a th:href="@{/user/pets/register}" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Register Pet
+        </a>
+    </div>
+</div>
+
+
+        <!-- Pet Card -->
+     <!-- Pet Card -->
+<th:block th:if="${pets}">
+<div class="container mt-4">
+
+    <table class="table table-striped table-hover align-middle shadow-sm">
+        <thead class="table-secondary">
+            <tr>
+                <th scope="col">Pet Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Age</th>
+                <th scope="col" class="text-end">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="pet : ${pets}">
+                <td>
+                    <strong th:text="${pet.name}">Pet Name</strong>
+                </td>
+               
+                <td th:text="${pet.type}">Dog</td>
+
+                <td>
+                    <span th:text="${pet.age}">2</span> years
+                </td>
+
+                <!-- Actions -->
+                <td class="text-end">
+                    <div class="d-flex flex-column align-items-end gap-2">
+
+                        <a th:href="@{/user/pets/view-details/{id}(id=${pet.id})}"
+                           class="btn btn-outline-primary btn-sm w-50 text-start">
+                            <i class="bi bi-eye me-2"></i> View Details
+                        </a>
+
+                        <a th:href="@{/user/pets/edit/{id}(id=${pet.id})}"
+                           class="btn btn-outline-secondary btn-sm w-50 text-start">
+                            <i class="bi bi-pencil me-2"></i> Edit Pet Details
+                        </a>
+
+                        <a th:href="@{/user/pets/delete/{id}(id=${pet.id})}"
+                           class="btn btn-outline-danger btn-sm w-50 text-start"
+                           onclick="return confirm('Are you sure you want to delete this pet?');">
+                            <i class="bi bi-trash me-2"></i> Delete
+                        </a>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+</th:block>
+
+
+
+   
+</main>
+<!-- Footer -->
+<div th:replace="~{user/user-fragments :: footer}"></div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

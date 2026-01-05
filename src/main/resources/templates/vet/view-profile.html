@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile | Vet | PetCare</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Shared CSS -->
+    <link href="/css/admin-home.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{vet/vet-fragments::header}"></div>
+
+<div class="admin-wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="~{vet/vet-fragments::sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Top bar -->
+        <div th:replace="~{vet/vet-fragments::navbar}"></div>
+        
+        <div th:if="${success}" class="alert alert-success text-center">
+        <span th:text="${success}"></span>
+        </div>
+
+        <!-- Page Content -->
+        <div class="container-fluid">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0">
+                    <i class="bi bi-person-circle me-2"></i> My Profile
+                </h4>
+
+                <a th:href="@{/vet/profile/edit/{id}(id=${vet.id})}" class="btn btn-warning">
+                    <i class="bi bi-pencil-square me-1"></i> Edit Profile
+                </a>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Name:</strong>
+                            <p th:text="${vet.name}"></p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Email:</strong>
+                            <p th:text="${vet.email}"></p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Specialization:</strong>
+                            <p th:text="${vet.specialization}"></p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Scheduled Appointments:</strong>
+                            <p th:text="${scheduledAppointments.size()}"></p>
+                        </div>
+                        
+                         <div class="col-md-6">
+                            <strong>Completed Appointments:</strong>
+                            <p th:text="${completedAppointments.size()}"></p>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mb-0">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Password and sensitive settings can be updated from the Edit Profile page.
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{vet/vet-fragments::footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

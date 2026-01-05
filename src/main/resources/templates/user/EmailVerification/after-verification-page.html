@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification | PetCare</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/homePage.css}">
+</head>
+
+<body class="bg-light">
+
+<div class="page-wrapper">
+
+    <!-- Header -->
+    <div th:replace="~{fragments :: header}"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="page-content">
+
+        <section class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm p-4 text-center">
+
+                        <!-- SUCCESS MESSAGE -->
+                        <div th:if="${success}">
+                            <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
+                            <h4 class="text-success">Verification Successful</h4>
+                            <p class="mt-2" th:text="${success}"></p>
+
+                            <a th:href="@{/user/loginPage}" class="btn btn-success mt-3">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                            </a>
+                        </div>
+
+                        <!-- ERROR MESSAGE -->
+                        <div th:if="${error}">
+                            <i class="bi bi-x-circle-fill text-danger fs-1 mb-3"></i>
+                            <h4 class="text-danger">Verification Failed</h4>
+                            <p class="mt-2" th:text="${error}"></p>
+
+                            <a th:href="@{/user/registerPage}" class="btn btn-danger mt-3">
+                                <i class="bi bi-person-plus me-1"></i> Register Again
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{user/user-fragments :: footer}"></div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

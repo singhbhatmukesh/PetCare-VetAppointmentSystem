@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vet Dashboard | PetCare</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Admin CSS (reused) -->
+    <link href="/css/admin-home.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{vet/vet-fragments::header}"></div>
+
+<div class="admin-wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="~{vet/vet-fragments::sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Top bar -->
+      <div th:replace="~{vet/vet-fragments::navbar}"></div>
+
+        <!-- Page Content -->
+        <div class="container-fluid">
+
+            <h4 class="mb-4">
+                <i class="bi bi-speedometer2 me-2"></i> Vet Dashboard
+            </h4>
+
+            <div class="row g-4">
+
+                <!-- Assigned Pets -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm text-center">
+                        <div class="card-body">
+                            <i class="bi bi-heart-pulse text-primary fs-1 mb-3"></i>
+                            <h5 class="card-title">Assigned Pets</h5>
+                            <p class="card-text text-muted">
+                                View and manage pets assigned to you
+                            </p>
+                            <a th:href="@{/vet/pets}" class="btn btn-primary">
+                                View Pets
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointments -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm text-center">
+                        <div class="card-body">
+                            <i class="bi bi-calendar-check text-success fs-1 mb-3"></i>
+                            <h5 class="card-title">Appointments</h5>
+                            <p class="card-text text-muted">
+                                Check today’s and upcoming appointments
+                            </p>
+                            <a th:href="@{/vet/appointments}" class="btn btn-success">
+                                View Appointments
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medications -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm text-center">
+                        <div class="card-body">
+                            <i class="bi bi-capsule text-warning fs-1 mb-3"></i>
+                            <h5 class="card-title">Medications</h5>
+                            <p class="card-text text-muted">
+                                Prescribe and review medications
+                            </p>
+                            <a th:href="@{/vet/medications}" class="btn btn-warning">
+                                Manage Medications
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{vet/vet-fragments::footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>My Medications | PetCare</title>
+
+<!-- Bootstrap -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+	rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" th:href="@{/css/homePage.css}">
+</head>
+
+<body class="bg-light">
+
+	<div class="page-wrapper">
+
+		<!-- Header -->
+		<div th:replace="~{user/user-fragments :: header}"></div>
+
+		<!-- MAIN CONTENT -->
+		<main class="page-content">
+
+			<section class="container mt-5">
+
+				<div class="card shadow-sm p-4">
+
+					<!-- Title -->
+					<div class="d-flex align-items-center mb-4">
+						<i class="bi bi-capsule fs-1 text-primary me-3"></i>
+						<div>
+							<h3 class="mb-0">My Pet Medications</h3>
+							<small class="text-muted"> View diagnosis and
+								prescriptions for your pets </small>
+						</div>
+					</div>
+
+					<!-- No Pets -->
+					<div th:if="${pets.isEmpty()}" class="alert alert-info text-center">
+						<i class="bi bi-info-circle me-1"></i> You have no registered
+						pets.
+					</div>
+
+					<!-- Pets Accordion -->
+					<div class="accordion" id="petAccordion" th:if="${!pets.isEmpty()}">
+
+						<div class="accordion-item mb-3" th:each="pet, stat : ${pets}">
+
+							<h2 class="accordion-header">
+								<button class="accordion-button collapsed" type="button"
+									data-bs-toggle="collapse"
+									th:data-bs-target="'#pet' + ${pet.id}">
+									🐾 <span class="ms-2 fw-semibold" th:text="${pet.name}">Pet
+										Name</span>
+								</button>
+							</h2>
+
+							<div th:id="'pet' + ${pet.id}"
+								class="accordion-collapse collapse"
+								data-bs-parent="#petAccordion">
+
+								<div class="accordion-body">
+
+									<!-- Diagnosis -->
+									<div class="mb-3">
+										<h6 class="fw-semibold">Diagnosis</h6>
+
+										<p th:if="${pet.diagnosis != null}"
+											th:text="${pet.diagnosis.diagnosis}"></p>
+
+										<p th:if="${pet.diagnosis == null}"
+											class="text-muted fst-italic">No diagnosis recorded.</p>
+									</div>
+
+									<hr>
+
+									<!-- Medications -->
+									<h6 class="fw-semibold mb-2">Prescribed Medications</h6>
+
+									<div th:if="${pet.medication.isEmpty()}"
+										class="alert alert-warning">No prescription available
+										for this pet.</div>
+
+									<div class="table-responsive"
+										th:if="${!pet.medication.isEmpty()}">
+
+										<table class="table table-bordered table-sm align-middle">
+											<thead class="table-light">
+												<tr>
+													<th>Medication</th>
+													<th>Dosage</th>
+													<th>Duration</th>
+													<th>Prescribed By</th>
+													<th>Status</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="med : ${pet.medication}">
+													<td th:text="${med.name}"></td>
+													<td th:text="${med.dosage}"></td>
+													<td><span th:text="${med.startDate}"></span> → <span
+														th:text="${med.endDate}"></span></td>
+													<td th:text="${med.prescribedBy}"></td>
+													<td>
+
+    <!-- RUNNING -->
+    <span th:if="${med.status != null and med.status.name() == 'RUNNING'}">
+        <span class="badge bg-warning me-2">Running</span>
+
+        <a th:href="@{/user/medications/complete/{id}(id=${med.id})}"
+           class="btn btn-sm btn-outline-success"
+           onclick="return confirm('Mark medication as completed?')">
+            <i class="bi bi-check-circle"></i>
+        </a>
+    </span>
+
+    <!-- COMPLETED -->
+    <span th:if="${med.status != null and med.status.name() == 'COMPLETED'}">
+        <span class="badge bg-success">Completed</span>
+    </span>
+
+    <!-- NOT SET -->
+    <span th:if="${med.status == null}">
+        <span class="badge bg-secondary">Not Set</span>
+    </span>
+
+</td>
+													
+
+
+
+												</tr>
+											</tbody>
+										</table>
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</section>
+
+		</main>
+
+		<!-- Footer -->
+		<div th:replace="~{user/user-fragments :: footer}"></div>
+
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

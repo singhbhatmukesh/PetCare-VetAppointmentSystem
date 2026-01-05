@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Appointments | PetCare</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/homePage.css}">
+</head>
+
+<body class="bg-light">
+
+<div class="page-wrapper">
+
+    <!-- Header -->
+    <div th:replace="~{user/user-fragments :: header}"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="page-content">
+
+        <section class="container mt-5">
+
+            <div class="card shadow-sm p-4">
+
+                <!-- Title -->
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-calendar-check fs-1 text-primary me-3"></i>
+                        <div>
+                            <h3 class="mb-0">My Appointments</h3>
+                            <small class="text-muted">View and manage your vet visits</small>
+                        </div>
+                    </div>
+
+                    <a th:href="@{/user/appointments/schedule}"
+                       class="btn btn-primary">
+                        <i class="bi bi-calendar-plus me-1"></i> Schedule
+                    </a>
+                </div>
+
+                <!-- Success Message -->
+                <div th:if="${success}" class="alert alert-success">
+                    <span th:text="${success}"></span>
+                </div>
+                
+                 <div th:if="${cancel}" class="alert alert-success">
+                    <span th:text="${cancel}"></span>
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Pet</th>
+                            <th>Vet</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="appt, stat : ${appointments}">
+                            <td th:text="${stat.count}"></td>
+                            <td th:text="${appt.pet.name}"></td>
+                            <td th:text="${appt.vet.name}"></td>
+                            <td th:text="${appt.date}"></td>
+                            <td th:text="${#temporals.format(appt.time, 'hh:mm a')}"></td>
+
+                            <td>
+                                <span class="badge bg-info"
+                                      th:text="${appt.status}"></span>
+                            </td>
+                            <td class="text-center">
+                                <a th:href="@{/user/appointments/cancel/{id}(id=${appt.id})}"
+                                   th:if="${appt.status == 'Scheduled'}"
+                                   class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Cancel this appointment?')">
+                                    Cancel
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${appointments.isEmpty()}">
+                            <td colspan="7" class="text-center text-muted py-3">
+                                No appointments scheduled
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{user/user-fragments :: footer}"></div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

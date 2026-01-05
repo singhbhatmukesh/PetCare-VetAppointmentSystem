@@ -1,0 +1,134 @@
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.bg-primary-60 {
+    background-color: rgb(99, 118, 254);
+}
+
+
+/* Admin wrapper takes full height */
+.admin-wrapper {
+    display: flex;
+    flex: 1;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.sidebar a {
+    color: #dee2e6;
+    text-decoration: none;
+    padding: 12px 16px;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #495057;
+    color: #fff;
+}
+
+/* Main content */
+.main-content {
+    flex: 1;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+/* Dashboard cards */
+.card {
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Ensure sidebar extends to bottom */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Footer at bottom */
+footer {
+    background-color: #6c757d;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Top bar dropdown styling */
+.dropdown-menu li form button.dropdown-item {
+    width: 100%;
+    text-align: left;
+}
+/* ================= LOGOUT BUTTON HOVER FIX ================= */
+
+/* Normal state */
+.dropdown-menu li form button.dropdown-item {
+    color: #dc3545;
+    background-color: transparent;
+    border: none;
+}
+
+/* Hover state */
+.dropdown-menu li form button.dropdown-item:hover,
+.dropdown-menu li form button.dropdown-item:focus {
+    background-color: rgb(228, 99, 112) !important;
+    color: #ffffff !important;
+}
+
+/* Remove blue active state */
+.dropdown-menu li form button.dropdown-item:active {
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+}
+
+/* Remove focus outline */
+.dropdown-menu li form button.dropdown-item:focus {
+    box-shadow: none !important;
+}
+/* ================= Sidebae Hover	 ================= */
+.sidebar-menu li {
+    margin: 5px 10px;
+    border-radius: 8px;
+}
+
+.sidebar-menu li a {
+    display: block;
+    padding: 12px 16px;
+    color: #cfd8dc;
+    text-decoration: none;
+}
+
+/* Hover + Active same */
+.sidebar-menu li:hover,
+.sidebar-menu li.active {
+    background-color: #495057;
+}
+
+.sidebar-menu li.active a {
+    color: #ffffff;
+    font-weight: 600;
+}
