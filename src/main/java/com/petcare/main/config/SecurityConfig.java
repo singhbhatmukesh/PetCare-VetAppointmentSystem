@@ -11,10 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.petcare.main.oauthconfig.CustomOAuth2UserService;
-import com.petcare.main.oauthconfig.CustomOAuthFailureHandler;
-import com.petcare.main.oauthconfig.CustomOauthSuccessHandler;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {

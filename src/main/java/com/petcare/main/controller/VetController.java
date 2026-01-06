@@ -40,8 +40,8 @@ public class VetController {
 	private VetRepo vrepo; 
 	private MedicationService mservice;
 	private DiagnosisService dservice;
-	private PetService pservice;
-	private MedicationRepo mrepo;
+	//private PetService pservice;
+	//private MedicationRepo mrepo;
 	
 	
 	public VetController(VetService vservice,
@@ -57,8 +57,8 @@ public class VetController {
 		this.vrepo=vrepo;
 		this.mservice=mservice;
 		this.dservice=dservice;
-		this.pservice=pservice;
-		this.mrepo=mrepo;
+		//this.pservice=pservice;
+		//this.mrepo=mrepo;
 	}
 
 	@GetMapping("/loginPage")

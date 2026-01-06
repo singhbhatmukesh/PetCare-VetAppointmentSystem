@@ -1,10 +1,7 @@
 package com.petcare.main.dtomapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.petcare.main.dto.PetDto;
 import com.petcare.main.entities.Pet;
-import com.petcare.main.repository.PetRepo;
 
 public class PetDtoMapper {
 	

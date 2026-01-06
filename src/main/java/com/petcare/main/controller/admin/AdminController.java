@@ -2,7 +2,6 @@ package com.petcare.main.controller.admin;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -21,8 +20,6 @@ import com.petcare.main.repository.AdminRepo;
 import com.petcare.main.resendmailservice.ResendEmailService;
 import com.petcare.main.service.AdminService;
 import com.petcare.main.service.UserService;
-import com.petcare.main.utilities.EmailService;
-
 import jakarta.mail.MessagingException;
 
 @Controller
@@ -61,7 +58,7 @@ public class AdminController {
 	public String registerAdmin(@ModelAttribute("admin") User admin,
 										RedirectAttributes redatt) {
 		try {
-		User saveAdmin=aservice.saveAdmin(admin);
+		aservice.saveAdmin(admin);
 		redatt.addFlashAttribute("success","Admin Registered Successfully");
 		return"redirect:/admin/register";
 		}

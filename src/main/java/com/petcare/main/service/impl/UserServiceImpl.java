@@ -2,9 +2,6 @@ package com.petcare.main.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +16,6 @@ import com.petcare.main.repository.UserRepo;
 import com.petcare.main.resendmailservice.ResendEmailService;
 import com.petcare.main.service.UserService;
 import com.petcare.main.utilities.CreateVerificationToken;
-import com.petcare.main.utilities.EmailService;
-
 import jakarta.mail.MessagingException;
 
 @Service

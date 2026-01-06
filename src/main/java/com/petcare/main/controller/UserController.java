@@ -1,10 +1,8 @@
 package com.petcare.main.controller;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +36,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/user")
 public class UserController {
 	
-	private EmailService eservice;
+	//private EmailService eservice;
 	private UserRepo urepo;
 	private MedicationRepo mrepo;
 	private MedicationService mservice;
@@ -53,7 +51,7 @@ public class UserController {
 	public UserController(EmailService eservice, UserRepo urepo, MedicationRepo mrepo, MedicationService mservice,
 			UserService uService, PetService pservice, ResendEmailService rservice) {
 		super();
-		this.eservice = eservice;
+		//this.eservice = eservice;
 		this.urepo = urepo;
 		this.mrepo = mrepo;
 		this.mservice = mservice;
@@ -78,7 +76,7 @@ public class UserController {
 										
 	{
 		try {
-		User saveUser = uService.saveUser(user);
+		uService.saveUser(user);
 		redatt.addFlashAttribute("success", "User Registered Successfully!");
 		return "redirect:/user/registerPage";
 		}

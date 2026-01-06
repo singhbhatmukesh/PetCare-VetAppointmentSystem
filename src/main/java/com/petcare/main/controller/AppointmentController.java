@@ -20,9 +20,6 @@ import com.petcare.main.service.AppointmentService;
 import com.petcare.main.service.PetService;
 import com.petcare.main.service.UserService;
 import com.petcare.main.service.VetService;
-import com.petcare.main.utilities.EmailService;
-
-import jakarta.mail.MessagingException;
 
 @Controller
 @RequestMapping("/user")

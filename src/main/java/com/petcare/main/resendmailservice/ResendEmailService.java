@@ -1,7 +1,6 @@
 package com.petcare.main.resendmailservice;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +8,6 @@ import com.petcare.main.entities.Appointment;
 import com.petcare.main.entities.User;
 import com.resend.Resend;
 import com.resend.services.emails.model.CreateEmailOptions;
-
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 
 
 @Service
