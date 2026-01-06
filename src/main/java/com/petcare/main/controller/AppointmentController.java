@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.petcare.main.entities.Appointment;
 import com.petcare.main.entities.User;
+import com.petcare.main.resendmailservice.ResendEmailService;
 import com.petcare.main.service.AppointmentService;
 import com.petcare.main.service.PetService;
 import com.petcare.main.service.UserService;
@@ -31,7 +32,8 @@ public class AppointmentController {
 	private PetService pservice;
 	private VetService vservice;
 	private UserService uservice;
-	private EmailService eservice;
+	//private EmailService eservice;
+	private ResendEmailService rservice;
 	
 	
 	
@@ -39,13 +41,13 @@ public class AppointmentController {
 								PetService pservice, 
 								VetService vservice,
 								UserService uservice,
-								EmailService eservice) {
+								ResendEmailService rservice) {
 		super();
 		this.aservice = aservice;
 		this.pservice = pservice;
 		this.vservice = vservice;
 		this.uservice=uservice;
-		this.eservice=eservice;
+		this.rservice=rservice;
 	}
 
 
@@ -73,14 +75,14 @@ public class AppointmentController {
 									  @ModelAttribute Appointment appointment,
 									  @RequestParam Long petId,
 									  @RequestParam Long vetId,
-									  RedirectAttributes ra) throws MessagingException {
+									  RedirectAttributes ra) {
 		User userByEmail = uservice.getUserByEmail(auth.getName());
 		appointment.setStatus("Scheduled");
 		appointment.setUser(userByEmail);
 		appointment.setPet(pservice.getPetById(petId));
 		appointment.setVet(vservice.getVetById(vetId));
 		aservice.createAppointment(appointment);
-		eservice.sendAppointmentNotification(appointment, userByEmail);
+		rservice.sendAppointmentNotification(appointment, userByEmail);
 		ra.addFlashAttribute("success", "Appointment Scheduled");
 		return "redirect:/user/appointments";
 	}

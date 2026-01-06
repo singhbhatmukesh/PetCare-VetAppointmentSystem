@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.petcare.main.dto.UserDto;
 import com.petcare.main.entities.User;
 import com.petcare.main.repository.AdminRepo;
+import com.petcare.main.resendmailservice.ResendEmailService;
 import com.petcare.main.service.AdminService;
 import com.petcare.main.service.UserService;
 import com.petcare.main.utilities.EmailService;
@@ -28,18 +29,21 @@ import jakarta.mail.MessagingException;
 @RequestMapping("/admin")
 public class AdminController {
 	
-	@Autowired
 	private UserService uservice;
-	
-	@Autowired
 	private AdminRepo arepo;
-	
-	@Autowired
 	private AdminService aservice;
+	private ResendEmailService rservice;
 	
-	@Autowired
-	private EmailService eservice;
 	
+	
+	public AdminController(UserService uservice, AdminRepo arepo, AdminService aservice, ResendEmailService rservice) {
+		super();
+		this.uservice = uservice;
+		this.arepo = arepo;
+		this.aservice = aservice;
+		this.rservice = rservice;
+	}
+
 	@GetMapping
 	public String getIndexPage() {
 		return "admin/admin-index";
@@ -166,10 +170,10 @@ public class AdminController {
 	
     @PostMapping("/forgot-password")
     public String sendPasswordResetLink(@RequestParam String email,
-    									RedirectAttributes ra) throws MessagingException {
+    									RedirectAttributes ra) {
     	Optional<User> adminByEmail = aservice.getAdminByEmail(email);
     	if(adminByEmail.isPresent()) {
-    		eservice.sendResetPasswordLinkForAdmin(adminByEmail.get());
+    		rservice.sendResetPasswordLinkForAdmin(adminByEmail.get());
     		ra.addFlashAttribute("success","Reset Link Sent To Your Email.");
     		return "redirect:/admin/loginPage";
     	}

@@ -16,6 +16,7 @@ import com.petcare.main.dto.UserDto;
 import com.petcare.main.entities.User;
 import com.petcare.main.entities.Verificationtoken;
 import com.petcare.main.repository.UserRepo;
+import com.petcare.main.resendmailservice.ResendEmailService;
 import com.petcare.main.service.UserService;
 import com.petcare.main.utilities.CreateVerificationToken;
 import com.petcare.main.utilities.EmailService;
@@ -25,17 +26,22 @@ import jakarta.mail.MessagingException;
 @Service
 public class UserServiceImpl implements UserService {
 	
-	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
-	@Autowired
 	private UserRepo uRepo;
-	
-	@Autowired
 	private CreateVerificationToken cvt;
+	private ResendEmailService rservice;
 	
-	@Autowired
-	private EmailService eservice;
+	
+
+	public UserServiceImpl(BCryptPasswordEncoder encoder, UserRepo uRepo, CreateVerificationToken cvt,
+			ResendEmailService rservice) {
+		super();
+		this.encoder = encoder;
+		this.uRepo = uRepo;
+		this.cvt = cvt;
+		this.rservice = rservice;
+	}
+
 
 	@Override
 		public User saveUser(User user) throws MessagingException {
@@ -61,7 +67,7 @@ public class UserServiceImpl implements UserService {
 			
 			
 			
-			eservice.sendEmailVerification(savedUser, token.getToken());
+			rservice.sendEmailVerification(savedUser, token.getToken());
 			
 			return user;
 		}
