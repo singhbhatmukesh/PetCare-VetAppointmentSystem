@@ -85,7 +85,7 @@ public void sendAppointmentNotification(Appointment appointment, User user){
 			    <p>Hi <strong>%s</strong>,</p>
 
 			    <p>Your appointment has been successfully booked with 
-			       <strong>Dr. %s</strong>.</p>
+			       <strong> %s</strong>.</p>
 
 			    <p><strong>Appointment Details:</strong></p>
 			    <ul>

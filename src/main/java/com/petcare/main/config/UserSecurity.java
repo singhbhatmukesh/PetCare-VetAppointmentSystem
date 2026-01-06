@@ -31,7 +31,7 @@ public class UserSecurity {
 						CustomOauthSuccessHandler authSuccessHandler) throws Exception {
 		
 		http.securityMatcher("/user/**","/oauth2/**",
-				"/login/oauth2/**")
+				"/login/oauth2/**","/pets","/appointments")
 			.authenticationProvider(userAuthenticationProvider)
 		    .authorizeHttpRequests(auth->auth
 		    		.requestMatchers(PublicUrls.USER_PUBLIC_URLS).permitAll()
