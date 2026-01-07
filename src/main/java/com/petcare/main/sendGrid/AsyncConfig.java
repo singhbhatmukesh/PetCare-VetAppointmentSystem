@@ -1,4 +1,4 @@
-package com.petcare.main.resendmailservice;
+package com.petcare.main.sendGrid;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;

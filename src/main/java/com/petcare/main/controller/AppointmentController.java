@@ -1,5 +1,6 @@
 package com.petcare.main.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -15,7 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.petcare.main.entities.Appointment;
 import com.petcare.main.entities.User;
-import com.petcare.main.resendmailservice.ResendEmailService;
+//import com.petcare.main.resendmailservice.ResendEmailService;
+import com.petcare.main.sendGrid.SendGridEmailService;
 import com.petcare.main.service.AppointmentService;
 import com.petcare.main.service.PetService;
 import com.petcare.main.service.UserService;
@@ -29,8 +31,7 @@ public class AppointmentController {
 	private PetService pservice;
 	private VetService vservice;
 	private UserService uservice;
-	//private EmailService eservice;
-	private ResendEmailService rservice;
+	private SendGridEmailService sendgridservice;
 	
 	
 	
@@ -38,13 +39,13 @@ public class AppointmentController {
 								PetService pservice, 
 								VetService vservice,
 								UserService uservice,
-								ResendEmailService rservice) {
+								SendGridEmailService sendgridservice) {
 		super();
 		this.aservice = aservice;
 		this.pservice = pservice;
 		this.vservice = vservice;
 		this.uservice=uservice;
-		this.rservice=rservice;
+		this.sendgridservice=sendgridservice;
 	}
 
 
@@ -79,7 +80,11 @@ public class AppointmentController {
 		appointment.setPet(pservice.getPetById(petId));
 		appointment.setVet(vservice.getVetById(vetId));
 		aservice.createAppointment(appointment);
-		rservice.sendAppointmentNotification(appointment, userByEmail);
+		try {
+			sendgridservice.sendAppointmentNotification(appointment, userByEmail);
+		} catch (IOException e) {
+			ra.addFlashAttribute("error", "Can't process request.Please try after somtime. ThankYou");
+		}
 		ra.addFlashAttribute("success", "Appointment Scheduled");
 		return "redirect:/user/appointments";
 	}

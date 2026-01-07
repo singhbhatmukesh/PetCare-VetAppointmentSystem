@@ -1,5 +1,6 @@
 package com.petcare.main.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,8 @@ import com.petcare.main.dto.UserDto;
 import com.petcare.main.entities.User;
 import com.petcare.main.entities.Verificationtoken;
 import com.petcare.main.repository.UserRepo;
-import com.petcare.main.resendmailservice.ResendEmailService;
+//import com.petcare.main.resendmailservice.ResendEmailService;
+import com.petcare.main.sendGrid.SendGridEmailService;
 import com.petcare.main.service.UserService;
 import com.petcare.main.utilities.CreateVerificationToken;
 import jakarta.mail.MessagingException;
@@ -24,22 +26,24 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder encoder;
 	private UserRepo uRepo;
 	private CreateVerificationToken cvt;
-	private ResendEmailService rservice;
+	private SendGridEmailService sendgridservice;
 	
 	
 
-	public UserServiceImpl(BCryptPasswordEncoder encoder, UserRepo uRepo, CreateVerificationToken cvt,
-			ResendEmailService rservice) {
+	public UserServiceImpl(BCryptPasswordEncoder encoder, 
+						   UserRepo uRepo, 
+						   CreateVerificationToken cvt,
+						   SendGridEmailService sendgridservice) {
 		super();
 		this.encoder = encoder;
 		this.uRepo = uRepo;
 		this.cvt = cvt;
-		this.rservice = rservice;
+		this.sendgridservice = sendgridservice;
 	}
 
 
 	@Override
-		public User saveUser(User user) throws MessagingException {
+		public User saveUser(User user) throws IOException {
 			if(uRepo.findByEmail(user.getEmail()).isPresent()) {
 				throw new IllegalStateException("Existing_email");
 			}
@@ -62,7 +66,7 @@ public class UserServiceImpl implements UserService {
 			
 			
 			
-			rservice.sendEmailVerification(savedUser, token.getToken());
+			sendgridservice.sendEmailVerification(savedUser, token.getToken());
 			
 			return user;
 		}

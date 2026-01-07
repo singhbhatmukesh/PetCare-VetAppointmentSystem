@@ -1,4 +1,5 @@
 package com.petcare.main.service;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -9,7 +10,7 @@ import jakarta.mail.MessagingException;
 
 public interface UserService {
 	
-	public User saveUser(User user) throws MessagingException;
+	public User saveUser(User user) throws IOException;
 	
 	public Page<UserDto> getAllUsers(int page);
 	public List<User> getAllUsers();

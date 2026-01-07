@@ -1,5 +1,6 @@
 package com.petcare.main.controller.admin;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -17,7 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.petcare.main.dto.UserDto;
 import com.petcare.main.entities.User;
 import com.petcare.main.repository.AdminRepo;
-import com.petcare.main.resendmailservice.ResendEmailService;
+//import com.petcare.main.resendmailservice.ResendEmailService;
+import com.petcare.main.sendGrid.SendGridEmailService;
 import com.petcare.main.service.AdminService;
 import com.petcare.main.service.UserService;
 import jakarta.mail.MessagingException;
@@ -29,16 +31,19 @@ public class AdminController {
 	private UserService uservice;
 	private AdminRepo arepo;
 	private AdminService aservice;
-	private ResendEmailService rservice;
+	private SendGridEmailService sendgridservice;
 	
 	
 	
-	public AdminController(UserService uservice, AdminRepo arepo, AdminService aservice, ResendEmailService rservice) {
+	public AdminController(UserService uservice, 
+						   AdminRepo arepo, 
+						   AdminService aservice, 
+						   SendGridEmailService sendgridservice) {
 		super();
 		this.uservice = uservice;
 		this.arepo = arepo;
 		this.aservice = aservice;
-		this.rservice = rservice;
+		this.sendgridservice = sendgridservice;
 	}
 
 	@GetMapping
@@ -111,7 +116,7 @@ public class AdminController {
 	
 	@PostMapping("/users/createUser")
 	public String createUsers(@ModelAttribute("user") User user,
-										RedirectAttributes redatt) throws MessagingException {
+										RedirectAttributes redatt) throws MessagingException, IOException {
 		User saveUser=uservice.saveUser(user);
 		if(saveUser!=null) {
 			redatt.addFlashAttribute("success","User Created Successfully");
@@ -170,9 +175,15 @@ public class AdminController {
     									RedirectAttributes ra) {
     	Optional<User> adminByEmail = aservice.getAdminByEmail(email);
     	if(adminByEmail.isPresent()) {
-    		rservice.sendResetPasswordLinkForAdmin(adminByEmail.get());
-    		ra.addFlashAttribute("success","Reset Link Sent To Your Email.");
-    		return "redirect:/admin/loginPage";
+    		try {
+				sendgridservice.sendResetPasswordLinkForAdmin(adminByEmail.get());
+				ra.addFlashAttribute("success","Reset Link Sent To Your Email.");
+	    		return "redirect:/admin/loginPage";
+    		} catch (IOException e) {
+    			ra.addFlashAttribute("error", "Can't process request.Please try after somtime. ThankYou");
+    			return "redirect:/admin/forgot-password";
+			}
+    		
     	}
     	else {
     		ra.addFlashAttribute("error","Email Doesnot Exist!!!");

@@ -1,4 +1,5 @@
 package com.petcare.main.controller;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +24,8 @@ import com.petcare.main.entities.Pet;
 import com.petcare.main.entities.User;
 import com.petcare.main.repository.MedicationRepo;
 import com.petcare.main.repository.UserRepo;
-import com.petcare.main.resendmailservice.ResendEmailService;
+//import com.petcare.main.resendmailservice.ResendEmailService;
+import com.petcare.main.sendGrid.SendGridEmailService;
 import com.petcare.main.service.MedicationService;
 import com.petcare.main.service.PetService;
 import com.petcare.main.service.UserService;
@@ -42,14 +44,17 @@ public class UserController {
 	private MedicationService mservice;
 	private UserService uService;
 	private PetService pservice;
-	private ResendEmailService rservice;
-	
+	private SendGridEmailService sendgridservice;
 	
 	
 	
 
-	public UserController(EmailService eservice, UserRepo urepo, MedicationRepo mrepo, MedicationService mservice,
-			UserService uService, PetService pservice, ResendEmailService rservice) {
+	public UserController(EmailService eservice, 
+						  UserRepo urepo, 
+						  MedicationRepo mrepo, 
+						  MedicationService mservice,
+						  UserService uService, 
+						  PetService pservice, SendGridEmailService sendgridservice) {
 		super();
 		//this.eservice = eservice;
 		this.urepo = urepo;
@@ -57,7 +62,8 @@ public class UserController {
 		this.mservice = mservice;
 		this.uService = uService;
 		this.pservice = pservice;
-		this.rservice = rservice;
+		//this.rservice = rservice;
+		this.sendgridservice=sendgridservice;
 	}
 
 	@GetMapping("/registerPage")
@@ -72,7 +78,7 @@ public class UserController {
 	
 	@PostMapping("/registerUser")
 	public String registerUser(@ModelAttribute("user") User user, 
-										RedirectAttributes redatt) throws MessagingException 
+										RedirectAttributes redatt) throws MessagingException, IOException 
 										
 	{
 		try {
@@ -231,9 +237,15 @@ public class UserController {
 	}
 	
 	@PostMapping("/send-reset-link")
-	public String sendResetLink(@RequestParam Long userId) throws MessagingException {
+	public String sendResetLink(@RequestParam Long userId,
+								RedirectAttributes ra) {
 		User userById = uService.getUserById(userId);
-		rservice.sendResetPasswordLink(userById);
+		try {
+			sendgridservice.sendResetPasswordLink(userById);
+		} catch (IOException e) {
+			ra.addFlashAttribute("error", "Can't process request.Please try after somtime. ThankYou");
+			return "redirect:/user/forgot-password";
+		}
 		//eservice.sendResetPasswordLink(userById);
 		return "user/resetpassword-message";
 	}
